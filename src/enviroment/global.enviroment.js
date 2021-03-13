@@ -1,0 +1,2 @@
+export const APP_NOTIFICATION_TIME = process.env.VUE_APP_NOTIFICATION_TIME || 10000
+export default APP_NOTIFICATION_TIME
