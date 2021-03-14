@@ -13,8 +13,8 @@ export default {
       input: ''
     }
   },
-  methods: {
-    search() {
+  watch: {
+    input() {
       this.$emit('onSearch', { value: this.input })
     }
   }

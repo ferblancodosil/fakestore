@@ -1,7 +1,7 @@
 <template>
   <div class="home" v-show="!loading">
-    <search class="search" @onSearch="search"></search>
-    <GridProduct v-if="items.length" :items="items" @clickedButton="addCart"></GridProduct>
+    <Search class="search" @onSearch="search"></Search>
+    <GridProduct v-if="items.length" :items="visibleItems" @clickedButton="addCart"></GridProduct>
     <Empty class="empty" v-else/>
   </div>
 </template>
@@ -21,8 +21,8 @@ export default {
   data() {
     return {
       loading: true,
-      items: [
-      ]
+      filter: '',
+      items: []
     }
   },
   async mounted() {
@@ -31,10 +31,14 @@ export default {
     this.$emit('progressBarDone')
     this.loading = false
   },
+  computed: {
+    visibleItems() {
+      return this.items.filter(e => e.title.match(this.filter))
+    }
+  },
   methods: {
     search({ value }) {
-      // eslint-disable-next-line
-      alert(`Vamos a buscar el valor ${value}`)
+      this.filter = value
     },
     addCart(id) {
       // eslint-disable-next-line
