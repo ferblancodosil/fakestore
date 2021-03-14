@@ -47,7 +47,7 @@ export default {
       Vue.set(this, 'loading', true)
       this.$emit('progressBarStart')
       const item = _.cloneDeep(this.items.find(e => e.id === id))
-      item.quantity -= 1
+      item.quantity = 0
       await Store.dispatch({
         type: APP_ACTIONS.UPDATE_SHOPPING_CART,
         item
