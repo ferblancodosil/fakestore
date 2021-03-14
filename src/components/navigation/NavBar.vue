@@ -44,9 +44,11 @@ export default {
         align-items: center;
         display: flex;
         justify-content: space-between;
+        img {
+          width: 37.33px;
+          height: 37.33px;
+        }
         .title {
-          font-family: Montserrat;
-          font-style: normal;
           font-weight: 500;
           font-size: 16px;
           line-height: 24px;
