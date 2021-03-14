@@ -1,15 +1,18 @@
 <template>
-  <div class="home" v-show="!loading">
+  <div class="home">
     <Search class="search" @onSearch="search"></Search>
-    <GridProduct v-if="items.length" :items="visibleItems" @clickedButton="addCart"></GridProduct>
-    <Empty class="empty" v-else/>
+    <GridProduct v-if="visibleItems.length" :items="visibleItems" @clickedButton="addCart" :enable="!loading"></GridProduct>
+    <Empty class="empty" v-else-if="!loading"/>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import Search from '@/components/navigation/Search'
 import GridProduct from '@/components/products/Grid'
 import Empty from '@/components/products/Empty'
+import Store, { APP_ACTIONS } from '@/store'
+import _ from 'lodash'
 
 export default {
   name: 'Home',
@@ -40,9 +43,18 @@ export default {
     search({ value }) {
       this.filter = value
     },
-    addCart(id) {
-      // eslint-disable-next-line
-      console.info(`Añadimos al carro`, id)
+    async addCart(id) {
+      Vue.set(this, 'loading', true)
+      this.$emit('progressBarStart')
+      const item = _.cloneDeep(this.items.find(e => e.id === id))
+      item.quantity = 1
+      await Store.dispatch({
+        type: APP_ACTIONS.UPDATE_SHOPPING_CART,
+        item
+      })
+      this.$emit('progressBarDone')
+      Vue.set(this, 'loading', false)
+      this.$router.push({ name: 'ShoppingCart' })
     }
   }
 }

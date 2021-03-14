@@ -18,17 +18,31 @@ export default {
     vueTopprogress,
     NavBar
   },
+  data() {
+    return {
+      initialLoad: true
+    }
+  },
   async mounted() {
-    Store.dispatch({
+    this.progressBarStart()
+    await Store.dispatch({
       type: APP_ACTIONS.REFRESH_SHOPPING_CART
     })
+    this.initialLoad = false
   },
   methods: {
     progressBarStart() {
       this.$refs.topProgress.start()
     },
     progressBarDone() {
-      this.$refs.topProgress.done()
+      if (!this.initialLoad) {
+        this.$refs.topProgress.done()
+      }
+    }
+  },
+  watch: {
+    initialLoad() {
+      this.progressBarDone()
     }
   }
 }

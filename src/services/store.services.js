@@ -1,5 +1,6 @@
 import { BASE_URL } from '@/enviroment/services.enviroment'
 import Store from '@/store'
+import _ from 'lodash'
 import Notification from './notification.services'
 
 const cartDate = '2020-03-02'// (new Date()).toISOString().split('T')[0]//
@@ -21,6 +22,15 @@ const validateUser = () => {
   return Store.state.user.id
 }
 
+const getUserCart = async () => {
+  const response = await fetch(`${BASE_URL}/carts/user/${validateUser()}?startdate=${cartDate}`)
+  const elements = await validateResponse(response)
+  if (elements.length === 0) {
+    throw new Error('Not created cart')
+  }
+  return _.cloneDeep(elements[0])
+}
+
 const getAllProducts = async () => {
   const response = await fetch(`${BASE_URL}/products`)
   const products = await validateResponse(response)
@@ -29,34 +39,40 @@ const getAllProducts = async () => {
 
 const getProduct = async (productId) => {
   const response = await fetch(`${BASE_URL}/products/${productId}`)
-  const product = validateResponse(response)
+  const product = await validateResponse(response)
   return product
 }
 
-const getShoppingCartElements = async () => {
-  const response = await fetch(`${BASE_URL}/carts/user/${validateUser()}?startdate=${cartDate}`)
-  const elements = await validateResponse(response)
-  return elements.length === 0 ? 0 : elements[0].products.length
-}
-
 const getShoppingCart = async () => {
-  const response = await fetch(`${BASE_URL}/carts/user/${validateUser()}?startdate=${cartDate}`)
-  const elements = await validateResponse(response)
-  if (elements.length === 0) {
+  try {
+    const elements = await getUserCart()
+    const promises = elements.products.map(async (product) => {
+      const detail = await getProduct(product.productId)
+      detail.quantity = product.quantity
+      return detail
+    })
+    const valores = await Promise.all(promises)
+    return valores
+  } catch (e) {
+    console.error(e)
     return []
   }
-  const promises = elements[0].products.map(async (product) => {
-    const detail = await getProduct(product.productId)
-    detail.quantity = product.quantity
-    return detail
+}
+
+const updateElementCart = async (products = []) => {
+  const cart = getUserCart()
+  cart.products = products
+  const response = await fetch('https://fakestoreapi.com/carts/7', {
+    method: 'PUT',
+    body: JSON.stringify(cart)
   })
-  const valores = await Promise.all(promises)
-  return valores
+  const result = await validateResponse(response)
+  return result.products
 }
 
 export default {
   getAllProducts,
   getProduct,
-  getShoppingCartElements,
-  getShoppingCart
+  getShoppingCart,
+  updateElementCart
 }

@@ -7,6 +7,7 @@
             :category="item.category"
             :price="item.price"
             :id="item.id"
+            :enable="enable"
             @clickedButton="clickedButton">
       <template v-slot:image>
         <slot name="image"></slot>
@@ -27,6 +28,10 @@ export default {
     Detail
   },
   props: {
+    enable: {
+      type: Boolean,
+      default: true
+    },
     items: {
       type: Array,
       required: true

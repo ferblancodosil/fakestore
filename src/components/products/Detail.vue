@@ -7,7 +7,7 @@
       <div class="category">{{this.category}}</div>
       <div class="price">{{this.price}} €</div>
       <slot name="button">
-      <button class="button" @click="clickedButton(id)">
+      <button class="button" @click="clickedButton(id)" :disabled="!enable">
         <slot name="image"><img src="~@/assets/images/addcart.svg"></slot>
         <slot name="text"><span class="text">Añadir a cesta</span></slot>
       </button>
@@ -20,6 +20,10 @@
 export default {
   name: 'GridProduct',
   props: {
+    enable: {
+      type: Boolean,
+      default: true
+    },
     id: {
       required: true,
       type: Number

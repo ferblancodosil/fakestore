@@ -1,7 +1,7 @@
 <template>
-  <div class="shopping_cart" v-show="!loading">
+  <div class="shopping_cart">
     <GoHome class="back"/>
-    <GridProduct v-if="items.length" :items="items" @clickedButton="removeCart">
+    <GridProduct v-if="items.length" :items="items" @clickedButton="removeCart" :enable="!loading">
       <template v-slot:image>
         <img src="~@/assets/images/removecart.svg">
       </template>
@@ -9,14 +9,21 @@
         <span class="text">Eliminar</span>
       </template>
     </GridProduct>
-    <Empty class="empty" v-else/>
+    <Empty class="empty" v-else>
+      <template v-slot:description>
+        <div class="description">Vuelve a nuestra lista de productos para añadir lo que desees.</div>
+      </template>
+    </Empty>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import GridProduct from '@/components/products/Grid'
 import Empty from '@/components/products/Empty'
 import GoHome from '@/components/navigation/GoHome'
+import Store, { APP_ACTIONS } from '@/store'
+import _ from 'lodash'
 
 export default {
   name: 'ShoppingCart',
@@ -27,21 +34,26 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      items: [
-      ]
+      loading: false
     }
   },
-  async mounted() {
-    this.$emit('progressBarStart')
-    this.items = await this.$services.store.getShoppingCart()
-    this.$emit('progressBarDone')
-    this.loading = false
+  computed: {
+    items() {
+      return Store.state.shoppingCartItems
+    }
   },
   methods: {
-    removeCart(item) {
-      // eslint-disable-next-line
-      console.info('removeCart', item)
+    async removeCart(id) {
+      Vue.set(this, 'loading', true)
+      this.$emit('progressBarStart')
+      const item = _.cloneDeep(this.items.find(e => e.id === id))
+      item.quantity -= 1
+      await Store.dispatch({
+        type: APP_ACTIONS.UPDATE_SHOPPING_CART,
+        item
+      })
+      this.$emit('progressBarDone')
+      Vue.set(this, 'loading', false)
     }
   }
 }

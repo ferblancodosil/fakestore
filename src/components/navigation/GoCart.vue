@@ -12,7 +12,7 @@ export default {
   name: 'GoCart',
   computed: {
     shoppingCartElements() {
-      return Store.state.shoppingCartItems
+      return Store.state.shoppingCartItems.length
     }
   }
 }
