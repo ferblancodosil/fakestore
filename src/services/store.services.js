@@ -60,9 +60,9 @@ const getShoppingCart = async () => {
 }
 
 const updateElementCart = async (products = []) => {
-  const cart = getUserCart()
+  const cart = await getUserCart()
   cart.products = products
-  const response = await fetch('https://fakestoreapi.com/carts/7', {
+  const response = await fetch(`${BASE_URL}/carts/${cart.id}`, {
     method: 'PUT',
     body: JSON.stringify(cart)
   })
