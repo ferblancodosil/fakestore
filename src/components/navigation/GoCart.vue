@@ -1,16 +1,18 @@
 <template>
   <router-link class="goCart" :to="{ name: 'ShoppingCart' }">
     <img src="~@/assets/images/cart.svg">
-    <span class="text">Mi Cesta ({{numberElements}})</span>
+    <span class="text">Mi Cesta ({{shoppingCartElements}})</span>
   </router-link>
 </template>
 
 <script>
+import Store from '@/store'
+
 export default {
   name: 'GoCart',
-  data() {
-    return {
-      numberElements: 2
+  computed: {
+    shoppingCartElements() {
+      return Store.state.shoppingCartItems
     }
   }
 }

@@ -10,16 +10,6 @@ const notify = ({ type = 'error', text = 'error' } = {}) => {
   })
 }
 
-const progressStart = () => {
-  this.$refs.topProgress.start()
-}
-
-const progressDone = () => {
-  this.$refs.topProgress.done()
-}
-
 export default {
-  notify,
-  progressStart,
-  progressDone
+  notify
 }

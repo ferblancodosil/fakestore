@@ -5,11 +5,9 @@
       <div class="title">{{this.title}}</div>
       <div class="description">{{this.description}}</div>
       <div class="category">{{this.category}}</div>
-      <div class="price">{{this.price}}</div>
-      <button class="buy">
-        <img src="~@/assets/images/addcart.svg">
-        <span class="text">Añadir a cesta</span>
-      </button>
+      <div class="price">{{this.price}} €</div>
+      <slot name="button">
+      </slot>
     </div>
   </div>
 </template>
@@ -35,7 +33,7 @@ export default {
       required: true
     },
     price: {
-      type: String,
+      type: Number,
       required: true
     }
   }
@@ -97,9 +95,10 @@ export default {
         color: $price_item_color;
         margin: 16px 0px;
       }
-      .buy {
+      .button {
         img {
-          width: 10%;
+          width: 16px;
+          height: 16px;
         }
         cursor: pointer;
         font-weight: 500;
@@ -108,21 +107,15 @@ export default {
         letter-spacing: 0.005em;
         text-transform: uppercase;
         font-feature-settings: 'liga' off;
-        background: $buy_button_background;
-        color: $buy_button_color;
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: 8px;
         height: 40px;
-        background: #0D4599;
         border-radius: 4px;
         margin: 16px 0px;
         .text {
           margin: 0px 8px;
-        }
-        &:hover {
-          background: $buy_button_hover;
         }
       }
     }

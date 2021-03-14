@@ -5,8 +5,11 @@
             :title="item.title"
             :description="item.description"
             :category="item.category"
-            :price="item.price"
-    />
+            :price="item.price">
+      <template v-slot:button>
+        <slot name="action"></slot>
+      </template>
+    </Detail>
   </div>
 </template>
 

@@ -1,7 +1,14 @@
 <template>
-  <div class="shopping_cart">
-    <GoHome/>
-    <GridProduct v-if="items.length" :items="items"></GridProduct>
+  <div class="shopping_cart" v-show="!loading">
+    <GoHome class="back"/>
+    <GridProduct v-if="items.length" :items="items">
+      <template v-slot:action>
+        <button class="button" @click="removeCart">
+          <img src="~@/assets/images/removecart.svg">
+          <span class="text">Eliminar</span>
+        </button>
+      </template>
+    </GridProduct>
     <Empty class="empty" v-else/>
   </div>
 </template>
@@ -20,8 +27,21 @@ export default {
   },
   data() {
     return {
+      loading: true,
       items: [
       ]
+    }
+  },
+  async mounted() {
+    this.$emit('progressBarStart')
+    this.items = await this.$services.store.getShoppingCart()
+    this.$emit('progressBarDone')
+    this.loading = false
+  },
+  methods: {
+    removeCart() {
+      // eslint-disable-next-line
+      alert('removeCart')
     }
   }
 }
@@ -32,6 +52,17 @@ export default {
     .empty {
       width: 50%;
       margin: 32px auto;
+    }
+    .back {
+      margin: 20px 0px;
+    }
+    .button {
+      background: red;
+      border-color: red;
+      color: white;
+      &:hover {
+        background: #EA413E;
+      }
     }
   }
 </style>
