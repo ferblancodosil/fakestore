@@ -66,8 +66,7 @@ const updateElementCart = async (products = []) => {
     method: 'PUT',
     body: JSON.stringify(cart)
   })
-  const result = await validateResponse(response)
-  return result.products
+  await validateResponse(response)
 }
 
 export default {
