@@ -1,12 +1,12 @@
 <template>
   <div class="shopping_cart" v-show="!loading">
     <GoHome class="back"/>
-    <GridProduct v-if="items.length" :items="items">
-      <template v-slot:action>
-        <button class="button" @click="removeCart">
-          <img src="~@/assets/images/removecart.svg">
-          <span class="text">Eliminar</span>
-        </button>
+    <GridProduct v-if="items.length" :items="items" @clickedButton="removeCart">
+      <template v-slot:image>
+        <img src="~@/assets/images/removecart.svg">
+      </template>
+      <template v-slot:text>
+        <span class="text">Eliminar</span>
       </template>
     </GridProduct>
     <Empty class="empty" v-else/>
@@ -39,9 +39,9 @@ export default {
     this.loading = false
   },
   methods: {
-    removeCart() {
+    removeCart(item) {
       // eslint-disable-next-line
-      alert('removeCart')
+      console.info('removeCart', item)
     }
   }
 }
@@ -56,12 +56,12 @@ export default {
     .back {
       margin: 20px 0px;
     }
-    .button {
-      background: red;
-      border-color: red;
+    &>>>.button {
+      background: red !important;
+      border-color: red !important;
       color: white;
       &:hover {
-        background: #EA413E;
+        background: #EA413E !important;
       }
     }
   }

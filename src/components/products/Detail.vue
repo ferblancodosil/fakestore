@@ -7,6 +7,10 @@
       <div class="category">{{this.category}}</div>
       <div class="price">{{this.price}} €</div>
       <slot name="button">
+      <button class="button" @click="clickedButton(id)">
+        <slot name="image"><img src="~@/assets/images/addcart.svg"></slot>
+        <slot name="text"><span class="text">Añadir a cesta</span></slot>
+      </button>
       </slot>
     </div>
   </div>
@@ -16,6 +20,10 @@
 export default {
   name: 'GridProduct',
   props: {
+    id: {
+      required: true,
+      type: Number
+    },
     image: {
       type: String,
       required: true
@@ -35,6 +43,11 @@ export default {
     price: {
       type: Number,
       required: true
+    }
+  },
+  methods: {
+    clickedButton(id) {
+      this.$emit('clickedButton', id)
     }
   }
 }
@@ -107,15 +120,21 @@ export default {
         letter-spacing: 0.005em;
         text-transform: uppercase;
         font-feature-settings: 'liga' off;
+        background: $buy_button_background;
+        color: $buy_button_color;
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: 8px;
         height: 40px;
+        background: #0D4599;
         border-radius: 4px;
         margin: 16px 0px;
         .text {
           margin: 0px 8px;
+        }
+        &:hover {
+          background: $buy_button_hover;
         }
       }
     }

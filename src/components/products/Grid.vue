@@ -5,9 +5,14 @@
             :title="item.title"
             :description="item.description"
             :category="item.category"
-            :price="item.price">
-      <template v-slot:button>
-        <slot name="action"></slot>
+            :price="item.price"
+            :id="item.id"
+            @clickedButton="clickedButton">
+      <template v-slot:image>
+        <slot name="image"></slot>
+      </template>
+      <template v-slot:text>
+        <slot name="text"></slot>
       </template>
     </Detail>
   </div>
@@ -25,6 +30,11 @@ export default {
     items: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    clickedButton(id) {
+      this.$emit('clickedButton', id)
     }
   }
 }

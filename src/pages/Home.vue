@@ -1,14 +1,7 @@
 <template>
   <div class="home" v-show="!loading">
     <search class="search" @onSearch="search"></search>
-    <GridProduct v-if="items.length" :items="items">
-      <template v-slot:action>
-        <button class="button">
-          <img src="~@/assets/images/addcart.svg">
-          <span class="text">Añadir a cesta</span>
-        </button>
-      </template>
-    </GridProduct>
+    <GridProduct v-if="items.length" :items="items" @clickedButton="addCart"></GridProduct>
     <Empty class="empty" v-else/>
   </div>
 </template>
@@ -42,6 +35,10 @@ export default {
     search({ value }) {
       // eslint-disable-next-line
       alert(`Vamos a buscar el valor ${value}`)
+    },
+    addCart(id) {
+      // eslint-disable-next-line
+      console.info(`Añadimos al carro`, id)
     }
   }
 }
