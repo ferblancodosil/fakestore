@@ -13,6 +13,7 @@ export default {
 <style lang="scss" scoped>
   .goHome {
     height: 18px;
+    width: 140px;
     font-weight: 300;
     font-size: 14px;
     line-height: 18px;
