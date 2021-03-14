@@ -1,10 +1,10 @@
 <template>
   <div class="navbar">
     <div class="menu">
-      <div class="logo">
+      <router-link :to="{ name: 'Home' }" class="logo">
         <img src="~@/assets/images/logo.svg">
         <div class="title">fakestore</div>
-      </div>
+      </router-link>
       <div>
         <go-cart></go-cart>
       </div>
@@ -40,6 +40,9 @@ export default {
       justify-content: space-between;
       align-items: center;
       padding: 16px 24px;
+      a {
+        text-decoration: none;
+      }
       .logo {
         align-items: center;
         display: flex;

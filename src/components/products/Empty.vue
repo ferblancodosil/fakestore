@@ -7,13 +7,7 @@
 
 <script>
 export default {
-  name: 'Empty',
-  props: {
-    title: {
-      type: String,
-      required: true
-    }
-  }
+  name: 'Empty'
 }
 </script>
 <style lang="scss" scoped>

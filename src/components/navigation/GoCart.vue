@@ -1,8 +1,8 @@
 <template>
-  <div class="goCart">
+  <router-link class="goCart" :to="{ name: 'ShoppingCart' }">
     <img src="~@/assets/images/cart.svg">
     <span class="text">Mi Cesta ({{numberElements}})</span>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -20,9 +20,8 @@ export default {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    text-decoration: none;
     .text {
-      font-family: Montserrat;
-      font-style: normal;
       font-weight: 500;
       font-size: 12px;
       line-height: 24px;
