@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     visibleItems() {
-      return this.items.filter(e => e.title.match(this.filter))
+      return this.items.filter(e => e.title.toLowerCase().match(this.filter.toLowerCase()))
     }
   },
   methods: {
