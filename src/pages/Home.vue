@@ -1,30 +1,26 @@
 <template>
-  <div class="Home">
+  <div class="home">
     <search class="search" @onSearch="search"></search>
-    <GridProduct :items="items"></GridProduct>
+    <GridProduct v-if="items.length" :items="items"></GridProduct>
+    <Empty class="empty" v-else/>
   </div>
 </template>
 
 <script>
 import Search from '@/components/navigation/Search'
 import GridProduct from '@/components/products/Grid'
+import Empty from '@/components/products/Empty'
 
 export default {
   name: 'Home',
   components: {
     GridProduct,
-    Search
+    Search,
+    Empty
   },
   data() {
     return {
       items: [
-        {
-          image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-          title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
-          description: 'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday',
-          category: 'men clothing',
-          price: '109.95 €'
-        }
       ]
     }
   },
@@ -38,7 +34,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .search {
-    margin: 8px 0px;
+  .home {
+    .empty {
+      width: 50%;
+      margin: 32px auto;
+    }
+    .search {
+      margin: 8px 0px;
+    }
   }
 </style>
