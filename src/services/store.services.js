@@ -59,7 +59,7 @@ const getShoppingCart = async () => {
   }
 }
 
-const updateElementCart = async (products = []) => {
+const updateShoppingCart = async (products = []) => {
   const cart = await getUserCart()
   cart.products = products
   const response = await fetch(`${BASE_URL}/carts/${cart.id}`, {
@@ -67,11 +67,12 @@ const updateElementCart = async (products = []) => {
     body: JSON.stringify(cart)
   })
   await validateResponse(response)
+  return _.cloneDeep(products)
 }
 
 export default {
   getAllProducts,
   getProduct,
   getShoppingCart,
-  updateElementCart
+  updateShoppingCart
 }

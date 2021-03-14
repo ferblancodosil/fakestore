@@ -38,16 +38,16 @@ const store = {
   },
   actions: {
     async [APP_ACTIONS.UPDATE_SHOPPING_CART]({ commit, state }, { item }) {
-      const results = _.cloneDeep(state.shoppingCartItems)
-      const foundElement = results.findIndex(e => e.id === item.id)
+      const actualCart = _.cloneDeep(state.shoppingCartItems)
+      const foundElement = actualCart.findIndex(e => e.id === item.id)
       if (foundElement === -1 && item.quantity > 0) {
-        results.push(item)
+        actualCart.push(item)
       } else if (item.quantity === 0) {
-        results.splice(foundElement, 1)
+        actualCart.splice(foundElement, 1)
       } else {
-        results[foundElement].quantity += item.quantity
+        actualCart[foundElement].quantity += item.quantity
       }
-      await Vue.prototype.$services.store.updateElementCart(item)
+      const results = await Vue.prototype.$services.store.updateShoppingCart(actualCart)
       // como la api no hace nada vamos a actualizar los datos del storage para ver algo
       commit(APP_MUTATIONS.CHANGE_SHOPPING_NUMBER, { items: results })
       return results
